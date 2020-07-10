@@ -92,11 +92,11 @@ docker run \
   --mount source=greenarrow-vol1,target=/opt/greenarrow-persistent \
   --tmpfs /var/hvmail/qmail-ram/queue:rw,noexec,nosuid,size=400m \
   --tmpfs /var/hvmail/qmail-bounce/queue:rw,noexec,nosuid,size=100m \
-  --expose 10080:80  \ # http
-  --expose 10443:443 \ # https
-  --expose 10025:25  \ # smtp
-  --expose 10587:587 \ # smtp submission
-  --expose 10110:110 \ # pop3
+  --publish 10080:80  \
+  --publish 10443:443 \
+  --publish 10025:25  \
+  --publish 10587:587 \
+  --publish 10110:110 \
   --env GA_LICENSE_KEY="abcdefghijklmnopqrstuvwxyz1234567890" \
   greenarrow:4.202.1 \
   start
@@ -130,11 +130,11 @@ See the section below [Tuning the RAM and bounce queues](#tuning-queues) for mor
 how to select the right size values.
 
 ```
-  --expose 10080:80  \ # http
-  --expose 10443:443 \ # https
-  --expose 10025:25  \ # smtp
-  --expose 10587:587 \ # smtp submission
-  --expose 10110:110 \ # pop3
+  --publish 10080:80  \
+  --publish 10443:443 \
+  --publish 10025:25  \
+  --publish 10587:587 \
+  --publish 10110:110 \
 ```
 
 Expose the most common ports on the host network. You may choose to use
