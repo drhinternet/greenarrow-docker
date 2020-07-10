@@ -12,7 +12,10 @@ GreenArrow is a high-powered Mail Transfer Agent and Marketing Studio.
 
 Please see [GreenArrow Email](https://www.greenarrowemail.com) for more information.
 
----
+The provided Dockerfile will work with GreenArrow versions 4.202.1 and above.
+
+
+<a id="build-image"/>
 
 ## Building the image
 
@@ -38,17 +41,24 @@ docker build \
 
 The GreenArrow docker image assumes a persistent volume will be mounted at
 `/opt/greenarrow-persistent`. Prior to running GreenArrow, this volume
-must be initialized.
+must be initialized. During initialization, the persistent volume will
+be populated with the data GreenArrow needs to function. That persistent
+volume will then be used for actually running GreenArrow.
 
 The following command will create a volume `greenarrow-vol1` (if it does not
-already exist) and initialize it. The following environment variables
-must be provided:
+already exist) and initialize it. These environment variables must be specified.
 
-| Name | Description |
-| - | - |
-| `GA_HOSTNAME` | The hostname to use for this GreenArrow installation. A URL domain and bounce mailbox will be created using this hostname. |
-| `GA_ADMIN_EMAIL` | The email address of the primary administrator to use. This address will be used to sign into Marketing Studio. |
-| `GA_ADMIN_PASSWORD` | The password for the primary administrator to use. This will be set for both the email address above in Marketing Studio and the "admin" user in Engine's user interface. |
+**`GA_HOSTNAME`**
+
+The hostname to use for this GreenArrow installation. A URL domain and bounce mailbox will be created using this hostname.
+
+**`GA_ADMIN_EMAIL`**
+
+The email address of the primary administrator to use. This address will be used to sign into Marketing Studio.
+
+**`GA_ADMIN_PASSWORD`**
+
+The password for the primary administrator to use. This will be set for both the email address above in Marketing Studio and the "admin" user in Engine's user interface.
 
 ```
 docker run \
@@ -64,7 +74,12 @@ docker run \
 
 ## Startup
 
-Once the persistent volume is initialized, it is now ready to startup GreenArrow.
+Once the persistent volume is initialized, it is now ready to startup
+GreenArrow.
+
+When the container starts up, all of GreenArrow's standard
+user-data paths are rewritten as symbolic links pointing into the persistent
+volume.
 
 GreenArrow requires a license key to be fully operational.
 If you have not yet
@@ -111,7 +126,7 @@ name of this mount is up to you - but it must be mounted at `/opt/greenarrow-per
 
 Give the RAM queue a 400MB tmpfs filesystem, and the bounce queue 100MB. This is
 required and GreenArrow will not start if these tmpfs paths have not been configured.
-See the section below "Tuning the RAM and bounce queues" for more information on
+See the section below [Tuning the RAM and bounce queues](#tuning-queues) for more information on
 how to select the right size values.
 
 ```
@@ -122,9 +137,10 @@ how to select the right size values.
 	--expose 10110:110 \ # pop3
 ```
 
-Expose the most common ports on the host network. Most users will need to use
+Expose the most common ports on the host network. You may choose to use
 a [macvlan network](https://docs.docker.com/network/macvlan/) instead of the
-default network driver, so this will not usually apply.
+default network driver, in order to provide specific public IP addresses to containers.
+In this case, the expose statements do not apply.
 
 ```
   --env GA_LICENSE_KEY="abcdefghijklmnopqrstuvwxyz1234567890" \
@@ -136,7 +152,7 @@ The license key as provided by GreenArrow.
   greenarrow:4.202.1 \
 ```
 
-The Docker image tag to use, as you've defined in the "Building the image" section above.
+The Docker image tag to use, as you've defined in the [Building the image](#build-image) section above.
 
 ```
   start
@@ -153,6 +169,8 @@ You can connect to the running GreenArrow Docker container using `docker exec` w
 docker exec --interactive --tty CONTAINER-ID /bin/bash -l
 ```
 
+
+<a id="tuning-queues"/>
 
 ## Tuning the RAM and bounce queues
 
