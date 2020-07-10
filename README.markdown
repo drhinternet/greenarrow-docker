@@ -131,10 +131,10 @@ how to select the right size values.
 
 ```
   --expose 10080:80  \ # http
-	--expose 10443:443 \ # https
-	--expose 10025:25  \ # smtp
-	--expose 10587:587 \ # smtp submission
-	--expose 10110:110 \ # pop3
+  --expose 10443:443 \ # https
+  --expose 10025:25  \ # smtp
+  --expose 10587:587 \ # smtp submission
+  --expose 10110:110 \ # pop3
 ```
 
 Expose the most common ports on the host network. You may choose to use
