@@ -15,18 +15,26 @@ Please see [GreenArrow Email](https://www.greenarrowemail.com) for more informat
 The provided Dockerfile will work with GreenArrow versions 4.202.1 and above.
 
 
+## Prerequisites
+
+* GreenArrow repository key
+* GreenArrow license key
+
+If you do not have a valid repository key and license key,
+[contact GreenArrow](https://www.greenarrowemail.com/contact-us) to purchase one.
+
+
 <a id="build-image"/>
 
 ## Building the image
 
 GreenArrow is installed from packages in a private yum repository. In order to
-create the image, you need to have a repository key. If you have not yet
-obtained a repository key, [contact GreenArrow](https://www.greenarrowemail.com/contact-us)
-to purchase one.
+create the image, you need to specify a valid repository key.
 
-Once you have a repo key, all you need to do is select
+Select
 [which version to install](https://www.greenarrowemail.com/docs/greenarrow-engine/Change-Log/)
 and run the following.
+
 
 ```
 docker build \
@@ -93,6 +101,15 @@ GreenArrow requires a license key to be fully operational.
 If you have not yet
 obtained a license key, [contact GreenArrow](https://www.greenarrowemail.com/contact-us)
 to purchase one.
+
+**`GA_LICENSE_KEY`** (optional)
+
+The license key as provided by GreenArrow.
+
+If you prefer to not specify the
+license key in this way, see
+[this document on setting the license key](https://www.greenarrowemail.com/docs/greenarrow-engine/Configuration/License-Key)
+inside the running container.
 
 ```
 docker run \
