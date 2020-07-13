@@ -46,19 +46,27 @@ be populated with the data GreenArrow needs to function. That persistent
 volume will then be used for actually running GreenArrow.
 
 The following command will create a volume `greenarrow-vol1` (if it does not
-already exist) and initialize it. These environment variables must be specified.
+already exist) and initialize it. These environment variables can be specified.
 
-**`GA_HOSTNAME`**
+**`GA_HOSTNAME`** (required)
 
 The hostname to use for this GreenArrow installation. A URL domain and bounce mailbox will be created using this hostname.
 
-**`GA_ADMIN_EMAIL`**
+**`GA_ADMIN_EMAIL`** (required)
 
 The email address of the primary administrator to use. This address will be used to sign into Marketing Studio.
 
-**`GA_ADMIN_PASSWORD`**
+**`GA_ADMIN_PASSWORD`** (required)
 
 The password for the primary administrator to use. This will be set for both the email address above in Marketing Studio and the "admin" user in Engine's user interface.
+
+**`GA_LICENSE_KEY`** (optional)
+
+The license key that will be written to `/var/hvmail/control/license_key`.
+
+Specifying the license key during persistent volume initialization is optional.
+
+The license key is updated annually, as such some users may not want it as part of container initialization.
 
 ```
 docker run \
