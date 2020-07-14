@@ -2,6 +2,34 @@
 
 [![](https://www.greenarrowemail.com/docs/assets/greenarrow-logo.5a0f5393b05e.png)](https://www.greenarrowemail.com)
 
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+
+- [Quick reference](#quick-reference)
+- [GreenArrow](#greenarrow)
+- [Prerequisites](#prerequisites)
+- [Image entrypoint](#image-entrypoint)
+- [Persistent volume](#persistent-volume)
+- [Using GreenArrow in Docker](#using-greenarrow-in-docker)
+  - [(1) Clone the GreenArrow Docker repository](#1-clone-the-greenarrow-docker-repository)
+  - [(2) Build the image](#2-build-the-image)
+  - [(3) Initialize the persistent volume](#3-initialize-the-persistent-volume)
+  - [(4) Start GreenArrow](#4-start-greenarrow)
+  - [(5) Connecting to the running Docker container](#5-connecting-to-the-running-docker-container)
+  - [(6) Finish installation](#6-finish-installation)
+- [Upgrading GreenArrow](#upgrading-greenarrow)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+<!--
+
+  table of contents generated/updated with:
+
+    doctoc --notitle README.markdown --maxlevel 3
+
+-->
+
 
 ## Quick reference
 
@@ -151,7 +179,7 @@ If you have not yet
 obtained a license key, [contact GreenArrow](https://www.greenarrowemail.com/contact-us)
 to purchase one.
 
-### Environment variables
+#### Environment variables
 
 **`GA_RAMDISK_SIZE`** (required)
 
