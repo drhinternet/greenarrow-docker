@@ -1,5 +1,7 @@
 # GreenArrow Docker Integration
 
+[![](https://www.greenarrowemail.com/docs/assets/greenarrow-logo.5a0f5393b05e.png)](https://www.greenarrowemail.com)
+
 
 ## Quick reference
 
@@ -17,6 +19,7 @@ The provided Dockerfile will work with GreenArrow versions 4.202.1 and above.
 
 ## Prerequisites
 
+* Docker
 * GreenArrow repository key
 * GreenArrow license key
 
@@ -24,9 +27,42 @@ If you do not have a valid repository key and license key,
 [contact GreenArrow](https://www.greenarrowemail.com/contact-us) to purchase one.
 
 
+## Image entrypoint
+
+When starting up in the Docker image, GreenArrow launches the command `/var/hvmail/libexec/greenarrow-docker-entrypoint`.
+
+This command accepts two possible parameters, `init` and `start`. The `init`
+command initializes a previously-uninitialized Docker volume. The `start`
+command starts GreenArrow's runtime services. Both are described further
+in the sections below.
+
+
+## Persistent volume
+
+The GreenArrow docker image requires a persistent volume to be mounted at
+`/opt/greenarrow-persistent`. Prior to running GreenArrow, this volume
+must be initialized. During initialization, the persistent volume will
+be populated with the data GreenArrow needs to function. That persistent
+volume will then be used for actually running GreenArrow.
+
+The filesystem where the volume is stored should be one of those
+[supported by GreenArrow](https://www.greenarrowemail.com/docs/greenarrow-engine/Getting-Started/Installation-Guide#configure-filesystems)
+(ext4 and XFS).
+
+
+## Using GreenArrow in Docker
+
+### (1) Clone the GreenArrow Docker repository
+
+```
+git clone https://github.com/drhinternet/greenarrow-docker.git
+cd greenarrow-docker
+```
+
+
 <a id="build-image"/>
 
-## Building the image
+### (2) Build the image
 
 GreenArrow is installed from packages in a private yum repository. In order to
 create the image, you need to specify a valid repository key.
@@ -45,7 +81,7 @@ docker build \
 ```
 
 
-## Initialization
+### (3) Initialize the persistent volume
 
 The GreenArrow docker image assumes a persistent volume will be mounted at
 `/opt/greenarrow-persistent`. Prior to running GreenArrow, this volume
@@ -55,6 +91,8 @@ volume will then be used for actually running GreenArrow.
 
 The following command will create a volume `greenarrow-vol1` (if it does not
 already exist) and initialize it. These environment variables can be specified.
+
+#### Environment variables
 
 **`GA_HOSTNAME`** (required)
 
@@ -68,6 +106,11 @@ The email address of the primary administrator to use. This address will be used
 
 The password for the primary administrator to use. This will be set for both the email address above in Marketing Studio and the "admin" user in Engine's user interface.
 
+If you don't want to specify your production password as an environment variable, we recommend
+setting a "dummy" password here then changing your password in both
+[Engine](https://www.greenarrowemail.com/docs/greenarrow-engine/Configuration/General-Settings#web-interface-password) and
+[Studio](https://www.greenarrowemail.com/docs/greenarrow-studio/Organizations/User-Management).
+
 **`GA_LICENSE_KEY`** (optional)
 
 The license key that will be written to `/var/hvmail/control/license_key`.
@@ -75,6 +118,11 @@ The license key that will be written to `/var/hvmail/control/license_key`.
 Specifying the license key during persistent volume initialization is optional.
 
 The license key is updated annually, as such some users may not want it as part of container initialization.
+
+#### Example initialization command
+
+The following command will create a volume `greenarrow-vol1` (if it does not
+already exist) and initialize it.
 
 ```
 docker run \
@@ -88,7 +136,7 @@ docker run \
 ```
 
 
-## Startup
+### (4) Start GreenArrow
 
 Once the persistent volume is initialized, it is now ready to startup
 GreenArrow.
@@ -102,6 +150,39 @@ If you have not yet
 obtained a license key, [contact GreenArrow](https://www.greenarrowemail.com/contact-us)
 to purchase one.
 
+### Environment variables
+
+**`GA_RAMDISK_SIZE`** (required)
+
+The ramdisk size to use for this container.
+
+This option is tightly coupled with the two `--tmpfs` arguments required to
+start the container. If the `--tmpfs` arguments are missing, or are of
+insufficient size, GreenArrow will not start.
+
+Refer to our [RAM Queue Size](https://www.greenarrowemail.com/docs/greenarrow-engine/Configuration/General-Settings#ram-queue-size)
+documentation for more information about the available size options.
+
+The most common sizes are `xlarge_500mb_2000conn` (400MB RAM queue, 100MB bounce queue)
+and `xxlarge_3300mb_12000conn` (3200MB RAM queue, 100MB bounce queue). The tmpfs filesystem
+is stored in RAM, so this has a direct impact on RAM utilization.
+
+For `xlarge_500mb_2000conn`, the following arguments must be set:
+
+```
+  --env GA_RAMDISK_SIZE=xlarge_500mb_2000conn
+  --tmpfs /var/hvmail/qmail-ram/queue:rw,noexec,nosuid,size=400m,nr_inodes=32000
+  --tmpfs /var/hvmail/qmail-bounce/queue:rw,noexec,nosuid,size=100m,nr_inodes=4000
+```
+
+For `xxlarge_3300mb_12000conn`, the following arguments must be set:
+
+```
+  --env GA_RAMDISK_SIZE=xxlarge_3300mb_12000conn
+  --tmpfs /var/hvmail/qmail-ram/queue:rw,noexec,nosuid,size=3200m,nr_inodes=320000
+  --tmpfs /var/hvmail/qmail-bounce/queue:rw,noexec,nosuid,size=100m,nr_inodes=4000
+```
+
 **`GA_LICENSE_KEY`** (optional)
 
 The license key as provided by GreenArrow.
@@ -112,81 +193,30 @@ license key in this way, see
 inside the running container.
 
 ```
+  --env GA_LICENSE_KEY=abcdefghijklmnopqrstuvwxyz1234567890
+```
+
+#### Example GreenArrow start
+
+```
 docker run \
   --rm \
   --mount source=greenarrow-vol1,target=/opt/greenarrow-persistent \
-  --tmpfs /var/hvmail/qmail-ram/queue:rw,noexec,nosuid,size=400m \
-  --tmpfs /var/hvmail/qmail-bounce/queue:rw,noexec,nosuid,size=100m \
   --publish 10080:80  \
   --publish 10443:443 \
   --publish 10025:25  \
   --publish 10587:587 \
   --publish 10110:110 \
   --env GA_LICENSE_KEY="abcdefghijklmnopqrstuvwxyz1234567890" \
+  --env GA_RAMDISK_SIZE=xlarge_500mb_2000conn \
+  --tmpfs /var/hvmail/qmail-ram/queue:rw,noexec,nosuid,size=400m,nr_inodes=32000 \
+  --tmpfs /var/hvmail/qmail-bounce/queue:rw,noexec,nosuid,size=100m,nr_inodes=4000 \
   greenarrow:4.202.1 \
   start
 ```
 
-**This command is doing a lot of heavy lifting, so we'll break it down below.**
 
-```
-  --rm \
-```
-
-Destroy the container after it exits. GreenArrow stores all of its data that
-needs to be saved in the persistent volume. The container can be destroyed
-without losing meaningful data.
-
-```
-  --mount source=greenarrow-vol1,target=/opt/greenarrow-persistent \
-```
-
-Mount the named persistent volume `greenarrow-vol1` at the correct path. The
-name of this mount is up to you - but it must be mounted at `/opt/greenarrow-persistent`.
-
-```
-  --tmpfs /var/hvmail/qmail-ram/queue:rw,noexec,nosuid,size=400m \
-  --tmpfs /var/hvmail/qmail-bounce/queue:rw,noexec,nosuid,size=100m \
-```
-
-Give the RAM queue a 400MB tmpfs filesystem, and the bounce queue 100MB. This is
-required and GreenArrow will not start if these tmpfs paths have not been configured.
-See the section below [Tuning the RAM and bounce queues](#tuning-queues) for more information on
-how to select the right size values.
-
-```
-  --publish 10080:80  \
-  --publish 10443:443 \
-  --publish 10025:25  \
-  --publish 10587:587 \
-  --publish 10110:110 \
-```
-
-Expose the most common ports on the host network. You may choose to use
-a [macvlan network](https://docs.docker.com/network/macvlan/) instead of the
-default network driver, in order to provide specific public IP addresses to containers.
-In this case, the expose statements do not apply.
-
-```
-  --env GA_LICENSE_KEY="abcdefghijklmnopqrstuvwxyz1234567890" \
-```
-
-The license key as provided by GreenArrow.
-
-```
-  greenarrow:4.202.1 \
-```
-
-The Docker image tag to use, as you've defined in the [Building the image](#build-image) section above.
-
-```
-  start
-```
-
-Pass the "start" command to GreenArrow's docker entrypoint.
-
-
-## Connecting to the running Docker container
+### (5) Connecting to the running Docker container
 
 You can connect to the running GreenArrow Docker container using `docker exec` with bash.
 
@@ -194,17 +224,11 @@ You can connect to the running GreenArrow Docker container using `docker exec` w
 docker exec --interactive --tty CONTAINER-ID /bin/bash -l
 ```
 
+### (6) Finish installation
 
-<a id="tuning-queues"/>
+There are some steps described in the
+[GreenArrow Installation Guide](https://www.greenarrowemail.com/docs/greenarrow-engine/Getting-Started/Installation-Guide)
+that haven't been completed above.
 
-## Tuning the RAM and bounce queues
-
-See the [GreenArrow Concepts documentation](https://www.greenarrowemail.com/docs/greenarrow-engine/Getting-Started/GreenArrow-Concepts/#queues)
-for details on the roles of each of GreenArrow's queues.
-
-Our [Installation Guide](https://www.greenarrowemail.com/docs/greenarrow-engine/Getting-Started/Installation-Guide#tune-greenarrow-engine)
-also discusses tuning these values.
-
-We recommend starting with a value of `400m` for the RAM queue and `100m` for
-the bounce queue. You can tune these values at a later date if your performance
-is being limited by the size of the queues.
+You can pick up at the [Configure HTTPS](https://www.greenarrowemail.com/docs/greenarrow-engine/Getting-Started/Installation-Guide#configure-https)
+step and proceed from there. You can skip the "Tune GreenArrow Engine" section.
