@@ -135,6 +135,7 @@ docker run \
   init
 ```
 
+<a id="start-greenarrow"/>
 
 ### (4) Start GreenArrow
 
@@ -232,3 +233,16 @@ that haven't been completed above.
 
 You can pick up at the [Configure HTTPS](https://www.greenarrowemail.com/docs/greenarrow-engine/Getting-Started/Installation-Guide#configure-https)
 step and proceed from there. You can skip the "Tune GreenArrow Engine" section.
+
+## Upgrading GreenArrow
+
+Upgrades should be done by creating a new image with the new
+[GreenArrow version number](https://www.greenarrowemail.com/docs/greenarrow-engine/Change-Log/).
+Any data migrations that need to happen will be run automatically when the new
+container running the new image starts up.
+
+Upgrades are as simple as:
+
+1. [Create a new Docker image for the new version](#build-image).
+2. Stop the running container.
+3. [Run a new container using the new image](#start-greenarrow).
