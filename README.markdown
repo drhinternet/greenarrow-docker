@@ -262,11 +262,11 @@ It's important to stop the GreenArrow container cleanly. This gives it an
 opportunity to ensure its data is written to the persistent volume prior to
 exiting.
 
-To stop your `greenarrow-name` container:
+There are several ways to stop your `greenarrow-name` container cleanly:
 
-```
-docker stop greenarrow-name
-```
+* Send `SIGINT` or `SIGTERM` to the container.
+* Press control-c if your container is running in a terminal session.
+* Docker's stop command: `docker stop greenarrow-name`
 
 Once the container has exited, it's safe to remove it.
 
