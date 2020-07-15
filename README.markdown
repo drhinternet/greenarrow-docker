@@ -9,8 +9,6 @@
 - [Quick reference](#quick-reference)
 - [GreenArrow](#greenarrow)
 - [Prerequisites](#prerequisites)
-- [Image entrypoint](#image-entrypoint)
-- [Persistent volume](#persistent-volume)
 - [Using GreenArrow in Docker](#using-greenarrow-in-docker)
   - [(1) Clone the GreenArrow Docker repository](#1-clone-the-greenarrow-docker-repository)
   - [(2) Build the image](#2-build-the-image)
@@ -18,6 +16,7 @@
   - [(4) Start GreenArrow](#4-start-greenarrow)
   - [(5) Connecting to the running Docker container](#5-connecting-to-the-running-docker-container)
   - [(6) Finish installation](#6-finish-installation)
+- [Image entrypoint](#image-entrypoint)
 - [Upgrading GreenArrow](#upgrading-greenarrow)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -34,6 +33,8 @@
 ## Quick reference
 
 * **Maintained by**: [GreenArrow Email](https://www.greenarrowemail.com)
+* **Documentation**: [GreenArrow Documentation](https://www.greenarrowemail.com/docs/)
+* **Support**: [GreenArrow Technical Support Contact Info](https://www.greenarrowemail.com/docs/greenarrow-engine/Technical-Support-Contact-Info)
 
 
 ## GreenArrow
@@ -53,29 +54,6 @@ The provided Dockerfile will work with GreenArrow versions 4.202.1 and above.
 
 If you do not have a valid repository key and license key,
 [contact GreenArrow](https://www.greenarrowemail.com/contact-us) to purchase one.
-
-
-## Image entrypoint
-
-When starting up in the Docker image, GreenArrow launches the command `/var/hvmail/libexec/greenarrow-docker-entrypoint`.
-
-This command accepts two possible parameters, `init` and `start`. The `init`
-command initializes a previously-uninitialized Docker volume. The `start`
-command starts GreenArrow's runtime services. Both are described further
-in the sections below.
-
-
-## Persistent volume
-
-The GreenArrow Docker image requires a persistent volume to be mounted at
-`/opt/greenarrow-persistent`. Prior to running GreenArrow, this volume
-must be initialized. During initialization, the persistent volume will
-be populated with the data GreenArrow needs to function. That persistent
-volume will then be used for actually running GreenArrow.
-
-The filesystem where the volume is stored should be one of those
-[supported by GreenArrow](https://www.greenarrowemail.com/docs/greenarrow-engine/Getting-Started/Installation-Guide#configure-filesystems)
-(ext4 and XFS).
 
 
 ## Using GreenArrow in Docker
@@ -111,11 +89,15 @@ docker build \
 
 ### (3) Initialize the persistent volume
 
-The GreenArrow Docker image assumes a persistent volume will be mounted at
+The GreenArrow Docker image requires a persistent volume to be mounted at
 `/opt/greenarrow-persistent`. Prior to running GreenArrow, this volume
 must be initialized. During initialization, the persistent volume will
 be populated with the data GreenArrow needs to function. That persistent
 volume will then be used for actually running GreenArrow.
+
+The filesystem where the volume is stored should be one of those
+[supported by GreenArrow](https://www.greenarrowemail.com/docs/greenarrow-engine/Getting-Started/Installation-Guide#configure-filesystems)
+(ext4 and XFS).
 
 The following command will create a volume `greenarrow-vol1` (if it does not
 already exist) and initialize it. These environment variables can be specified.
@@ -261,6 +243,17 @@ that haven't been completed above.
 
 You can pick up at the [Configure HTTPS](https://www.greenarrowemail.com/docs/greenarrow-engine/Getting-Started/Installation-Guide#configure-https)
 step and proceed from there. You can skip the "Tune GreenArrow Engine" section.
+
+
+## Image entrypoint
+
+When starting up in the Docker image, GreenArrow launches the command `/var/hvmail/libexec/greenarrow-docker-entrypoint`.
+
+This command accepts two possible parameters, `init` and `start`. The `init`
+command initializes a previously-uninitialized Docker volume. The `start`
+command starts GreenArrow's runtime services. This document describes the
+behavior of both of these commands.
+
 
 ## Upgrading GreenArrow
 
