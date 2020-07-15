@@ -17,6 +17,7 @@
   - [(5) Connecting to the running Docker container](#5-connecting-to-the-running-docker-container)
   - [(6) Finish installation](#6-finish-installation)
 - [Image entrypoint](#image-entrypoint)
+- [Stopping GreenArrow](#stopping-greenarrow)
 - [Upgrading GreenArrow](#upgrading-greenarrow)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -229,10 +230,10 @@ docker run \
 
 ### (5) Connecting to the running Docker container
 
-You can connect to the running GreenArrow Docker container using `docker exec` with bash.
+You can connect to your `greenarrow-name` container using `docker exec` with bash.
 
 ```
-docker exec --interactive --tty CONTAINER-ID /bin/bash -l
+docker exec --interactive --tty greenarrow-name /bin/bash -l
 ```
 
 ### (6) Finish installation
@@ -253,6 +254,21 @@ This command accepts two possible parameters, `init` and `start`. The `init`
 command initializes a previously-uninitialized Docker volume. The `start`
 command starts GreenArrow's runtime services. This document describes the
 behavior of both of these commands.
+
+
+## Stopping GreenArrow
+
+It's important to stop the GreenArrow container cleanly. This gives it an
+opportunity to ensure its data is written to the persistent volume prior to
+exiting.
+
+To stop your `greenarrow-name` container:
+
+```
+docker stop greenarrow-name
+```
+
+Once the container has exited, it's safe to remove it.
 
 
 ## Upgrading GreenArrow
