@@ -67,7 +67,7 @@ in the sections below.
 
 ## Persistent volume
 
-The GreenArrow docker image requires a persistent volume to be mounted at
+The GreenArrow Docker image requires a persistent volume to be mounted at
 `/opt/greenarrow-persistent`. Prior to running GreenArrow, this volume
 must be initialized. During initialization, the persistent volume will
 be populated with the data GreenArrow needs to function. That persistent
@@ -111,7 +111,7 @@ docker build \
 
 ### (3) Initialize the persistent volume
 
-The GreenArrow docker image assumes a persistent volume will be mounted at
+The GreenArrow Docker image assumes a persistent volume will be mounted at
 `/opt/greenarrow-persistent`. Prior to running GreenArrow, this volume
 must be initialized. During initialization, the persistent volume will
 be populated with the data GreenArrow needs to function. That persistent
