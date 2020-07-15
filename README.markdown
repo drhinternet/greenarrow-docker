@@ -76,7 +76,7 @@ create the image, you need to specify a valid repository key.
 
 Select
 [which version to install](https://www.greenarrowemail.com/docs/greenarrow-engine/Change-Log/)
-and run the following.
+and run the following. Replace `PROVIDED_BY_GREENARROW` with your actual repository key.
 
 
 ```
@@ -107,11 +107,13 @@ already exist) and initialize it. These environment variables can be specified.
 
 **`GA_HOSTNAME`** (required)
 
-The hostname to use for this GreenArrow installation. A URL domain and bounce mailbox will be created using this hostname.
+The hostname to use for this GreenArrow installation. This should be a fully
+qualified domain name. A URL domain and bounce mailbox will be created using
+this hostname.
 
 **`GA_ADMIN_EMAIL`** (required)
 
-The email address of the primary administrator to use. This address will be used to sign into Marketing Studio.
+The email address of the primary administrator to use. This will be the Marketing Studio username.
 
 **`GA_ADMIN_PASSWORD`** (required)
 
@@ -128,7 +130,7 @@ The license key that will be written to `/var/hvmail/control/license_key`.
 
 Specifying the license key during persistent volume initialization is optional.
 
-The license key is updated annually, as such some users may not want it as part of container initialization.
+The license key is updated periodically, as such some users may not want it as part of container initialization.
 
 #### Example initialization command
 
@@ -158,9 +160,6 @@ user-data paths are rewritten as symbolic links pointing into the persistent
 volume.
 
 GreenArrow requires a license key to be fully operational.
-If you have not yet
-obtained a license key, [contact GreenArrow](https://www.greenarrowemail.com/contact-us)
-to purchase one.
 
 #### Environment variables
 
@@ -243,7 +242,7 @@ There are some steps described in the
 that haven't been completed above.
 
 You can pick up at the [Configure HTTPS](https://www.greenarrowemail.com/docs/greenarrow-engine/Getting-Started/Installation-Guide#configure-https)
-step and proceed from there. You can skip the "Tune GreenArrow Engine" section.
+step and proceed from there. Skip the "Tune GreenArrow Engine" section.
 
 
 ## Image entrypoint
