@@ -44,7 +44,7 @@ GreenArrow is a high-powered Mail Transfer Agent and Marketing Studio.
 
 Please see [GreenArrow Email](https://www.greenarrowemail.com) for more information.
 
-The provided Dockerfile will work with GreenArrow versions 4.202.1 and above.
+The provided Dockerfile will work with GreenArrow versions 4.202.2 and above.
 
 
 ## Prerequisites
@@ -81,9 +81,9 @@ and run the following. Replace `PROVIDED_BY_GREENARROW` with your actual reposit
 
 ```
 docker build \
-  --tag greenarrow:4.202.1 \
+  --tag greenarrow:4.202.2 \
   --build-arg GA_REPO_KEY=PROVIDED_BY_GREENARROW \
-  --build-arg GA_VERSION=4.202.1 \
+  --build-arg GA_VERSION=4.202.2 \
   .
 ```
 
@@ -144,7 +144,7 @@ docker run \
   --env GA_HOSTNAME=greenarrow-testing.com \
   --env GA_ADMIN_EMAIL="user@greenarrowemail.com" \
   --env GA_ADMIN_PASSWORD=abc123 \
-  greenarrow:4.202.1 \
+  greenarrow:4.202.2 \
   init
 ```
 
@@ -231,7 +231,7 @@ docker run \
   --env GA_RAMDISK_SIZE=xlarge_500mb_2000conn \
   --tmpfs /var/hvmail/qmail-ram/queue:rw,noexec,nosuid,size=400m,nr_inodes=32000 \
   --tmpfs /var/hvmail/qmail-bounce/queue:rw,noexec,nosuid,size=100m,nr_inodes=4000 \
-  greenarrow:4.202.1 \
+  greenarrow:4.202.2 \
   start
 ```
 
