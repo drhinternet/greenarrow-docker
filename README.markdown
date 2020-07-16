@@ -161,6 +161,15 @@ volume.
 
 GreenArrow requires a license key to be fully operational.
 
+The example below uses
+[the default network driver _bridge_](https://docs.docker.com/network/)
+and exposes ports to the host network. This does not provide GreenArrow with
+any public IP addresses.  Most installations of GreenArrow should have at least
+one public IP address from which to deliver email.  You may choose to use
+the [_macvlan_ network driver](https://docs.docker.com/network/macvlan/) instead of the
+default, in order to provide specific public IP addresses to containers.
+In this case, the expose statements below do not apply.
+
 #### Environment variables
 
 **`GA_RAMDISK_SIZE`** (required)
