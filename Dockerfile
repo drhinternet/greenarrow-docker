@@ -10,7 +10,7 @@ RUN echo "[greenarrow]" > /etc/yum.repos.d/greenarrow.repo \
  && echo "gpgcheck=True" >> /etc/yum.repos.d/greenarrow.repo \
  && echo "repo_gpgcheck=True" >> /etc/yum.repos.d/greenarrow.repo \
  && echo "gpgkey=https://git.drh.net/pub/greenarrow.gpg.key" >> /etc/yum.repos.d/greenarrow.repo \
- && yum -y install greenarrow-$GA_VERSION \
+ && yum -y install greenarrow-$GA_VERSION xfsprogs \
  && yum clean all \
  && /bin/rm -rf /var/cache/yum \
  && rm /etc/yum.repos.d/greenarrow.repo
