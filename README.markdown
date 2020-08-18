@@ -69,9 +69,21 @@ cd greenarrow-docker
 
 <a id="build-image"/>
 
-### (2) Build the image
+### (2) Select a Linux distribution
 
-GreenArrow is installed from packages in a private yum repository. In order to
+These instructions create a Docker container that runs CentOS 7. If you prefer
+to use Debian 10, move its Dockerfile into place:
+
+```
+mv Dockerfile Dockerfile.centos7
+mv Dockerfile.debian10 Dockerfile
+```
+
+Debian 10 Docker containers require GreenArrow 4.209.0 or later.
+
+### (3) Build the image
+
+GreenArrow is installed from packages in a private repository. In order to
 create the image, you need to specify a valid repository key.
 
 Select
@@ -81,14 +93,14 @@ and run the following. Replace `PROVIDED_BY_GREENARROW` with your actual reposit
 
 ```
 docker build \
-  --tag greenarrow:4.202.2 \
+  --tag greenarrow:4.209.0 \
   --build-arg GA_REPO_KEY=PROVIDED_BY_GREENARROW \
-  --build-arg GA_VERSION=4.202.2 \
+  --build-arg GA_VERSION=4.209.0 \
   .
 ```
 
 
-### (3) Initialize the persistent volume
+### (4) Initialize the persistent volume
 
 The GreenArrow Docker image requires a persistent volume to be mounted at
 `/opt/greenarrow-persistent`. Prior to running GreenArrow, this volume
@@ -144,13 +156,13 @@ docker run \
   --env GA_HOSTNAME=greenarrow-testing.com \
   --env GA_ADMIN_EMAIL="user@greenarrowemail.com" \
   --env GA_ADMIN_PASSWORD=abc123 \
-  greenarrow:4.202.2 \
+  greenarrow:4.209.0 \
   init
 ```
 
 <a id="start-greenarrow"/>
 
-### (4) Start GreenArrow
+### (5) Start GreenArrow
 
 Once the persistent volume is initialized, it is now ready to startup
 GreenArrow.
@@ -231,12 +243,12 @@ docker run \
   --env GA_RAMDISK_SIZE=xlarge_500mb_2000conn \
   --tmpfs /var/hvmail/qmail-ram/queue:rw,noexec,nosuid,size=400m,nr_inodes=32000 \
   --tmpfs /var/hvmail/qmail-bounce/queue:rw,noexec,nosuid,size=100m,nr_inodes=4000 \
-  greenarrow:4.202.2 \
+  greenarrow:4.209.0 \
   start
 ```
 
 
-### (5) Connecting to the running Docker container
+### (6) Connecting to the running Docker container
 
 You can connect to your `greenarrow-name` container using `docker exec` with bash.
 
