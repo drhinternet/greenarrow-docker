@@ -5,22 +5,17 @@ ARG GA_VERSION
 ARG DEBIAN_FRONTEND=noninteractive
 ARG APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=1
 
-RUN apt-get update
-RUN apt-get -y install apt-utils
-RUN apt-get -y install curl apt-transport-https gnupg locales xfsprogs procps
-
-RUN echo "deb [ arch=amd64 ] https://git.drh.net/key/$GA_REPO_KEY/apt/buster greenarrow main" > /etc/apt/sources.list.d/greenarrow.list
-RUN curl https://git.drh.net/pub/greenarrow.gpg.key --silent | apt-key add -
-RUN apt-get update
-
-# apt-get won't automagically figure out what greenarrow-support version is
-# required, so let's do the work for it.
-RUN apt-get -y install greenarrow-support=`apt-cache show greenarrow=$GA_VERSION'-*' | grep ^Depends | cut -d " " -f 4 | cut -d ")" -f 1`
-RUN apt-get -y install greenarrow=$GA_VERSION'-*'
-
-RUN apt-get clean all
-RUN /bin/rm -rf /var/lib/apt/lists/*
-RUN rm /etc/apt/sources.list.d/greenarrow.list
+RUN apt-get update \
+&& apt-get -y install apt-utils \
+&& apt-get -y install curl apt-transport-https gnupg locales xfsprogs procps \
+&& echo "deb [ arch=amd64 ] https://git.drh.net/key/$GA_REPO_KEY/apt/buster greenarrow main" > /etc/apt/sources.list.d/greenarrow.list \
+&& curl https://git.drh.net/pub/greenarrow.gpg.key --silent | apt-key add - \
+&& apt-get update \
+&& apt-get -y install greenarrow-support=`apt-cache show greenarrow=$GA_VERSION'-*' | grep ^Depends | cut -d " " -f 4 | cut -d ")" -f 1` \
+&& apt-get -y install greenarrow=$GA_VERSION'-*' \
+&& apt-get clean all \
+&& /bin/rm -rf /var/lib/apt/lists/* \
+&& rm /etc/apt/sources.list.d/greenarrow.list
 
 RUN echo en_US.UTF-8 UTF-8 >> /etc/locale.gen
 RUN locale-gen
