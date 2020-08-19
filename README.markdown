@@ -71,15 +71,11 @@ cd greenarrow-docker
 
 ### (2) Select a Linux distribution
 
-These instructions create a Docker container that runs CentOS 7. If you prefer
-to use Debian 10, move its Dockerfile into place:
+These instructions create a Docker container that runs CentOS 7 by default, but
+Debian 10 Docker containers are also supported by GreenArrow 4.209.0 and later.
 
-```
-mv Dockerfile Dockerfile.centos7
-mv Dockerfile.debian10 Dockerfile
-```
-
-Debian 10 Docker containers require GreenArrow 4.209.0 or later.
+If you prefer Debian 10, replace `--file Dockerfile` with
+`--file Dockerfile.debian10` in the `docker build` command below.
 
 ### (3) Build the image
 
@@ -96,6 +92,7 @@ docker build \
   --tag greenarrow:4.209.0 \
   --build-arg GA_REPO_KEY=PROVIDED_BY_GREENARROW \
   --build-arg GA_VERSION=4.209.0 \
+  --file Dockerfile \
   .
 ```
 
