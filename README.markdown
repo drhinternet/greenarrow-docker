@@ -16,7 +16,7 @@
   - [(4) Initialize the persistent volume](#4-initialize-the-persistent-volume)
   - [(5) Start GreenArrow](#5-start-greenarrow)
   - [(6) Connecting to the running Docker container](#6-connecting-to-the-running-docker-container)
-  - [(6) Finish installation](#6-finish-installation)
+  - [(7) Finish installation](#7-finish-installation)
 - [Image entrypoint](#image-entrypoint)
 - [Stopping GreenArrow](#stopping-greenarrow)
 - [Upgrading GreenArrow](#upgrading-greenarrow)
@@ -254,7 +254,7 @@ You can connect to your `greenarrow-name` container using `docker exec` with bas
 docker exec --interactive --tty greenarrow-name /bin/bash -l
 ```
 
-### (6) Finish installation
+### (7) Finish installation
 
 There are some steps described in the
 [GreenArrow Installation Guide](https://www.greenarrowemail.com/docs/greenarrow-engine/Getting-Started/Installation-Guide)
