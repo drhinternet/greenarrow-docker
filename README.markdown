@@ -72,8 +72,8 @@ cd greenarrow-docker
 
 ### (2) Select a Linux distribution
 
-These instructions create a Docker container that runs CentOS 7 by default, but
-Debian 10 Docker containers are also supported by GreenArrow 4.209.0 and later.
+These instructions create a Docker container that runs Centos 7 by default, but
+Debian 10 Docker containers are also supported by GreenArrow 4.258.0 and later.
 
 If you prefer Debian 10, replace `--file Dockerfile` with
 `--file Dockerfile.debian10` in the `docker build` command below.
@@ -90,9 +90,9 @@ and run the following. Replace `PROVIDED_BY_GREENARROW` with your actual reposit
 
 ```
 docker build \
-  --tag greenarrow:4.209.0 \
+  --tag greenarrow:4.258.0 \
   --build-arg GA_REPO_KEY=PROVIDED_BY_GREENARROW \
-  --build-arg GA_VERSION=4.209.0 \
+  --build-arg GA_VERSION=4.258.0 \
   --file Dockerfile \
   .
 ```
@@ -154,7 +154,7 @@ docker run \
   --env GA_HOSTNAME=greenarrow-testing.com \
   --env GA_ADMIN_EMAIL="user@greenarrowemail.com" \
   --env GA_ADMIN_PASSWORD=abc123 \
-  greenarrow:4.209.0 \
+  greenarrow:4.258.0 \
   init
 ```
 
@@ -232,16 +232,16 @@ inside the running container.
 docker run \
   --rm \
   --mount source=greenarrow-vol1,target=/opt/greenarrow-persistent \
-  --publish 10080:80  \
-  --publish 10443:443 \
-  --publish 10025:25  \
-  --publish 10587:587 \
-  --publish 10110:110 \
+  --publish 20080:80  \
+  --publish 20443:443 \
+  --publish 20025:25  \
+  --publish 20587:587 \
+  --publish 20110:110 \
   --env GA_LICENSE_KEY="abcdefghijklmnopqrstuvwxyz1234567890" \
   --env GA_RAMDISK_SIZE=xlarge_500mb_2000conn \
   --tmpfs /var/hvmail/qmail-ram/queue:rw,noexec,nosuid,size=400m,nr_inodes=32000 \
   --tmpfs /var/hvmail/qmail-bounce/queue:rw,noexec,nosuid,size=100m,nr_inodes=4000 \
-  greenarrow:4.209.0 \
+  greenarrow:4.258.0 \
   start
 ```
 
