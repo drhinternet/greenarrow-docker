@@ -73,7 +73,7 @@ cd greenarrow-docker
 ### (2) Select a Linux distribution
 
 These instructions create a Docker container that runs Centos 7 by default, but
-Debian 10 Docker containers are also supported by GreenArrow 4.258.0 and later.
+Debian 10 Docker containers are also supported by GreenArrow 4.209.0 and later.
 
 If you prefer Debian 10, replace `--file Dockerfile` with
 `--file Dockerfile.debian10` in the `docker build` command below.
