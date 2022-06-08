@@ -197,21 +197,56 @@ The most common sizes are `xlarge_500mb_2000conn` (400MB RAM queue, 100MB bounce
 and `xxlarge_3300mb_12000conn` (3200MB RAM queue, 100MB bounce queue). The tmpfs filesystem
 is stored in RAM, so this has a direct impact on RAM utilization.
 
-For `xlarge_500mb_2000conn`, the following arguments must be set:
+Here's a list of what `--tmpfs` arguments you need for each of our supported RAM disk sizes:
 
-```
+* micro_30mb_100conn
+  ```
+  --env GA_RAMDISK_SIZE=micro_30mb_100conn
+  --tmpfs /var/hvmail/qmail-ram/queue:rw,noexec,nosuid,size=20m,nr_inodes=16000
+  --tmpfs /var/hvmail/qmail-bounce/queue:rw,noexec,nosuid,size=10m,nr_inodes=4000
+  ```
+* small_100mb_500conn
+  ```
+  --env GA_RAMDISK_SIZE=small_100mb_500conn
+  --tmpfs /var/hvmail/qmail-ram/queue:rw,noexec,nosuid,size=80m,nr_inodes=16000
+  --tmpfs /var/hvmail/qmail-bounce/queue:rw,noexec,nosuid,size=20m,nr_inodes=4000
+  ```
+* medium_160mb_1000conn
+  ```
+  --env GA_RAMDISK_SIZE=medium_160mb_1000conn
+  --tmpfs /var/hvmail/qmail-ram/queue:rw,noexec,nosuid,size=140m,nr_inodes=16000
+  --tmpfs /var/hvmail/qmail-bounce/queue:rw,noexec,nosuid,size=20m,nr_inodes=4000
+  ```
+* large_250mb_1000conn
+  ```
+  --env GA_RAMDISK_SIZE=large_250mb_1000conn
+  --tmpfs /var/hvmail/qmail-ram/queue:rw,noexec,nosuid,size=200m,nr_inodes=16000
+  --tmpfs /var/hvmail/qmail-bounce/queue:rw,noexec,nosuid,size=50m,nr_inodes=4000
+  ```
+* xlarge_1000mb_2000conn_multiqueue
+  ```
+  --env GA_RAMDISK_SIZE=xlarge_1000mb_2000conn_multiqueue
+  --tmpfs /var/hvmail/qmail-ram/queue:rw,noexec,nosuid,size=900m,nr_inodes=32000
+  --tmpfs /var/hvmail/qmail-bounce/queue:rw,noexec,nosuid,size=100m,nr_inodes=4000
+  ```
+* xlarge_500mb_2000conn
+  ```
   --env GA_RAMDISK_SIZE=xlarge_500mb_2000conn
   --tmpfs /var/hvmail/qmail-ram/queue:rw,noexec,nosuid,size=400m,nr_inodes=32000
   --tmpfs /var/hvmail/qmail-bounce/queue:rw,noexec,nosuid,size=100m,nr_inodes=4000
-```
-
-For `xxlarge_3300mb_12000conn`, the following arguments must be set:
-
-```
+  ```
+* xxlarge_3300mb_12000conn_multiqueue
+  ```
+  --env GA_RAMDISK_SIZE=xxlarge_3300mb_12000conn_multiqueue
+  --tmpfs /var/hvmail/qmail-ram/queue:rw,noexec,nosuid,size=3200m,nr_inodes=16000
+  --tmpfs /var/hvmail/qmail-bounce/queue:rw,noexec,nosuid,size=100m,nr_inodes=4000
+  ```
+* xxlarge_3300mb_12000conn
+  ```
   --env GA_RAMDISK_SIZE=xxlarge_3300mb_12000conn
   --tmpfs /var/hvmail/qmail-ram/queue:rw,noexec,nosuid,size=3200m,nr_inodes=320000
   --tmpfs /var/hvmail/qmail-bounce/queue:rw,noexec,nosuid,size=100m,nr_inodes=4000
-```
+  ```
 
 **`GA_LICENSE_KEY`** (optional)
 
