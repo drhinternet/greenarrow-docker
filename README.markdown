@@ -125,14 +125,21 @@ this hostname.
 
 The email address of the primary administrator to use. This will be the Marketing Studio username.
 
-**`GA_ADMIN_PASSWORD`** (required)
+**`GA_ADMIN_PASSWORD`** (either `GA_ADMIN_PASSWORD` or `GA_ADMIN_PASSWORD_HASH` are required)
 
-The password for the primary administrator to use. This will be set for both the email address above in Marketing Studio and the "admin" user in Engine's user interface.
+The password for the primary administrator to use. This will be set for the email address above in both Engine and Marketing Studio.
 
-If you don't want to specify your production password as an environment variable, we recommend
-setting a "dummy" password here then changing your password in both
+If you don't want to specify your production password as an environment
+variable, we recommend either using `GA_ADMIN_PASSWORD_HASH` or setting a
+"dummy" password here then changing your password in both
 [Engine](https://www.greenarrowemail.com/docs/greenarrow-engine/Configuration/General-Settings#web-interface-password) and
 [Studio](https://www.greenarrowemail.com/docs/greenarrow-studio/Organizations/User-Management).
+
+**`GA_ADMIN_PASSWORD_HASH`** (either `GA_ADMIN_PASSWORD` or `GA_ADMIN_PASSWORD_HASH` are required)
+
+The password for the primary administrator to use. This will be set for the email address above in both Engine and Marketing Studio.
+
+This is an hashed version of `GA_ADMIN_PASSWORD`. The password hash is generated with the command `greenarrow encode_mailbox_password`.
 
 **`GA_LICENSE_KEY`** (optional)
 
