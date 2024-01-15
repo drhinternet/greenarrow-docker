@@ -90,9 +90,9 @@ and run the following. Replace `PROVIDED_BY_GREENARROW` with your actual reposit
 
 ```
 docker build \
-  --tag greenarrow:4.258.0 \
+  --tag greenarrow:4.306.0 \
   --build-arg GA_REPO_KEY=PROVIDED_BY_GREENARROW \
-  --build-arg GA_VERSION=4.258.0 \
+  --build-arg GA_VERSION=4.306.0 \
   --file Dockerfile \
   .
 ```
@@ -161,7 +161,7 @@ docker run \
   --env GA_HOSTNAME=greenarrow-testing.com \
   --env GA_ADMIN_EMAIL="user@greenarrowemail.com" \
   --env GA_ADMIN_PASSWORD=abc123 \
-  greenarrow:4.258.0 \
+  greenarrow:4.306.0 \
   init
 ```
 
@@ -283,7 +283,7 @@ docker run \
   --env GA_RAMDISK_SIZE=xlarge_500mb_2000conn \
   --tmpfs /var/hvmail/qmail-ram/queue:rw,noexec,nosuid,size=400m,nr_inodes=32000 \
   --tmpfs /var/hvmail/qmail-bounce/queue:rw,noexec,nosuid,size=100m,nr_inodes=4000 \
-  greenarrow:4.258.0 \
+  greenarrow:4.306.0 \
   start
 ```
 
