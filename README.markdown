@@ -161,6 +161,7 @@ docker run \
   --env GA_HOSTNAME=greenarrow-testing.com \
   --env GA_ADMIN_EMAIL="user@greenarrowemail.com" \
   --env GA_ADMIN_PASSWORD=abc123 \
+  --privileged \
   greenarrow:4.306.0 \
   init
 ```
@@ -283,6 +284,7 @@ docker run \
   --env GA_RAMDISK_SIZE=xlarge_500mb_2000conn \
   --tmpfs /var/hvmail/qmail-ram/queue:rw,noexec,nosuid,size=400m,nr_inodes=32000 \
   --tmpfs /var/hvmail/qmail-bounce/queue:rw,noexec,nosuid,size=100m,nr_inodes=4000 \
+  --privileged \
   greenarrow:4.306.0 \
   start
 ```
