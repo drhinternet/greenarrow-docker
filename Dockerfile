@@ -19,6 +19,11 @@ RUN echo "[greenarrow]" > /etc/yum.repos.d/greenarrow.repo \
 
 RUN echo 1 > /var/hvmail/control/opt.ramdisk_use_tmpfs
 RUN touch /var/hvmail/studio/public/custom.css
-RUN ln -s /var/hvmail/postgres/16 /var/hvmail/postgres/default
+
+RUN if [ -d /var/hvmail/postgres/16 ]; then \
+      ln -s /var/hvmail/postgres/16 /var/hvmail/postgres/default; \
+    else \
+      ln -s /var/hvmail/postgres/9.5 /var/hvmail/postgres/default; \
+    fi
 
 ENTRYPOINT ["/var/hvmail/libexec/greenarrow-docker-entrypoint"]
